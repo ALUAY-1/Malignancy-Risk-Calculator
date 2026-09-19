@@ -3,96 +3,98 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ΔVR–RC TR Malignancy Risk Calculator</title>
+<title>ΔVR–RC TR Malignancy Score Calculator</title>
 <style>
-:root{--bg:#f3f6f9;--card:#fff;--text:#111827;--muted:#5b677a;--line:#d9e1ea;--primary:#1f4e79;--primary-dark:#163b5c;--low-bg:#eef7f1;--low-text:#1f6b3a;--mid-bg:#fff8e6;--mid-text:#8a5a00;--high-bg:#fbeeee;--high-text:#9b1c1c}
-*{box-sizing:border-box;font-family:Arial,"Helvetica Neue",sans-serif}
-body{margin:0;background:var(--bg);color:var(--text)}
-.page{max-width:1180px;margin:0 auto;padding:34px 22px 48px}
-.topbar{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 30px;margin-bottom:22px;box-shadow:0 4px 18px rgba(15,23,42,.04)}
-.topbar h1{margin:0 0 10px;font-size:28px;letter-spacing:.2px;color:#0b1f33}.subtitle{margin:0;color:var(--muted);font-size:15px;line-height:1.7}
-.meta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}.meta-item{background:#f7fafc;border:1px solid #e3eaf2;border-radius:10px;padding:12px 14px}.meta-label{color:var(--muted);font-size:12px;margin-bottom:5px}.meta-value{font-size:14px;font-weight:700;color:#102a43}
-.main-grid{display:grid;grid-template-columns:390px 1fr;gap:22px;align-items:start}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;box-shadow:0 4px 18px rgba(15,23,42,.04)}.card+.card{margin-top:22px}
-.section-title{margin:0 0 18px;font-size:18px;color:#0b1f33;padding-bottom:12px;border-bottom:1px solid var(--line)}.field{margin-bottom:18px}
-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;font-weight:700;font-size:14px;color:#1f2937}.unit{color:var(--muted);font-weight:400;font-size:12px}
-input{width:100%;padding:12px 13px;font-size:16px;border:1px solid #b9c6d4;border-radius:8px;outline:none;background:#fff}input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(31,78,121,.12)}
-.hint{margin-top:6px;color:var(--muted);font-size:12px;line-height:1.5}button{width:100%;margin-top:6px;padding:13px 16px;font-size:15px;font-weight:700;color:#fff;background:var(--primary);border:none;border-radius:8px;cursor:pointer}button:hover{background:var(--primary-dark)}
-.formula-box{background:#f7fafc;border:1px solid #e3eaf2;border-radius:10px;padding:14px;line-height:1.7;color:#334155;font-size:13px}.formula-box strong{display:block;margin-bottom:6px;color:#102a43}
-.result-header{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:18px}.small-note{color:var(--muted);font-size:12px;line-height:1.6;text-align:right}
-.result-grid{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:14px;margin-bottom:18px}.metric,.risk-panel{border:1px solid #dfe7ef;border-radius:12px;padding:18px;background:#fbfdff;min-height:118px}
-.metric-label{color:var(--muted);font-size:13px;margin-bottom:10px}.metric-value{font-size:32px;line-height:1.1;font-weight:800;color:#0b1f33}.metric-sub{margin-top:8px;color:var(--muted);font-size:12px}
-.risk-badge{display:inline-block;padding:7px 12px;border-radius:999px;font-size:14px;font-weight:800;margin-bottom:10px}.low{background:var(--low-bg);color:var(--low-text);border:1px solid #cfe8d6}.middle{background:var(--mid-bg);color:var(--mid-text);border:1px solid #f3dda6}.high{background:var(--high-bg);color:var(--high-text);border:1px solid #efcccc}
-.interpretation{border-left:4px solid var(--primary);background:#f7fafc;border-radius:10px;padding:15px 16px;color:#263445;line-height:1.8;font-size:14px}
-.progress-wrap{margin-top:14px}.progress-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:7px}.bar{width:100%;height:14px;border-radius:999px;background:linear-gradient(to right,#d9f0df 0%,#d9f0df 64%,#fff2c5 64%,#fff2c5 77%,#f7d7d7 77%,#f7d7d7 100%);position:relative;border:1px solid #d6dee8}.marker{position:absolute;top:-5px;width:3px;height:24px;background:#0b1f33;border-radius:3px;left:0%}
-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}th,td{padding:11px 12px;border-bottom:1px solid #e2e8f0;text-align:left;vertical-align:top}th{background:#edf2f7;color:#243447;font-weight:800}.footnote{margin-top:14px;color:var(--muted);font-size:12px;line-height:1.8}.warning{background:#fffdf5;border:1px solid #ead9a8;border-radius:10px;padding:13px 14px;color:#5f4500;font-size:13px;line-height:1.8;margin-top:14px}
-@media(max-width:980px){.main-grid,.meta-grid,.result-grid{grid-template-columns:1fr}.result-header{display:block}.small-note{text-align:left;margin-top:6px}}
+:root{--bg:#f4f7fa;--card:#ffffff;--text:#111827;--muted:#5b677a;--line:#d8e1ea;--primary:#1f4e79;--primary-dark:#173d60;--below-bg:#eef6f2;--below-text:#245f3d;--interval-bg:#fff8e8;--interval-text:#7a5600;--above-bg:#f8eeee;--above-text:#8a2222}
+*{box-sizing:border-box;font-family:Arial,"Helvetica Neue",sans-serif}body{margin:0;background:var(--bg);color:var(--text)}.page{max-width:1180px;margin:0 auto;padding:34px 22px 50px}.header{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 30px;box-shadow:0 4px 18px rgba(15,23,42,.04);margin-bottom:22px}.header h1{margin:0 0 10px;font-size:28px;color:#0b1f33;letter-spacing:.2px}.subtitle{margin:0;color:var(--muted);font-size:15px;line-height:1.75;max-width:980px}.badge-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}.badge{background:#f8fbfd;border:1px solid #e2eaf2;border-radius:10px;padding:12px 14px}.badge-label{font-size:12px;color:var(--muted);margin-bottom:5px}.badge-value{font-size:14px;font-weight:700;color:#102a43}.main{display:grid;grid-template-columns:390px 1fr;gap:22px;align-items:start}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;box-shadow:0 4px 18px rgba(15,23,42,.04)}.card+.card{margin-top:22px}.section-title{margin:0 0 18px;font-size:18px;color:#0b1f33;padding-bottom:12px;border-bottom:1px solid var(--line)}.field{margin-bottom:18px}label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;font-weight:700;font-size:14px;color:#1f2937}.unit{font-size:12px;font-weight:400;color:var(--muted)}input{width:100%;padding:12px 13px;font-size:16px;border:1px solid #b9c6d4;border-radius:8px;outline:none;background:#fff}input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(31,78,121,.12)}.hint{margin-top:6px;color:var(--muted);font-size:12px;line-height:1.55}button{width:100%;margin-top:6px;padding:13px 16px;font-size:15px;font-weight:700;color:#fff;background:var(--primary);border:none;border-radius:8px;cursor:pointer}button:hover{background:var(--primary-dark)}.formula{background:#f8fbfd;border:1px solid #e2eaf2;border-radius:10px;padding:14px;color:#334155;font-size:13px;line-height:1.75}.formula strong{display:block;color:#102a43;margin-bottom:5px}.note{margin-top:14px;color:var(--muted);font-size:12px;line-height:1.8}.result-head{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:18px}.result-head .small{font-size:12px;color:var(--muted);line-height:1.6;text-align:right;max-width:330px}.result-grid{display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:14px;margin-bottom:18px}.metric,.zone-panel{border:1px solid #dfe7ef;border-radius:12px;padding:18px;background:#fbfdff;min-height:120px}.metric-label{font-size:13px;color:var(--muted);margin-bottom:10px}.metric-value{font-size:32px;font-weight:800;line-height:1.1;color:#0b1f33}.metric-sub{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.45}.zone-tag{display:inline-block;padding:7px 12px;border-radius:999px;font-size:14px;font-weight:800;margin-bottom:10px}.below{background:var(--below-bg);color:var(--below-text);border:1px solid #cfe5d7}.interval{background:var(--interval-bg);color:var(--interval-text);border:1px solid #ecdcae}.above{background:var(--above-bg);color:var(--above-text);border:1px solid #ebcccc}.scale-wrap{margin-top:14px}.scale-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:7px;gap:8px}.scale-labels span:nth-child(2),.scale-labels span:nth-child(3){font-weight:700;color:#405066}.scale{width:100%;height:14px;border-radius:999px;background:linear-gradient(to right,#d9f0df 0%,#d9f0df 63.7%,#fff2c5 63.7%,#fff2c5 77.4%,#f4dada 77.4%,#f4dada 100%);position:relative;border:1px solid #d6dee8}.marker{position:absolute;top:-5px;width:3px;height:24px;background:#0b1f33;border-radius:3px;left:0%}.interpretation{margin-top:20px;border-left:4px solid var(--primary);background:#f8fbfd;border-radius:10px;padding:15px 16px;color:#263445;line-height:1.8;font-size:14px}table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}th,td{padding:11px 12px;border-bottom:1px solid #e2e8f0;text-align:left;vertical-align:top}th{background:#edf2f7;color:#243447;font-weight:800}.warning{background:#fffdf5;border:1px solid #ead9a8;border-radius:10px;padding:14px 15px;color:#5f4500;font-size:13px;line-height:1.85}.footer-note{color:var(--muted);font-size:12px;line-height:1.75;margin-top:12px}@media(max-width:980px){.main,.badge-row,.result-grid{grid-template-columns:1fr}.result-head{display:block}.result-head .small{text-align:left;margin-top:6px;max-width:none}.scale-labels{font-size:11px}}
 </style>
 </head>
 <body>
 <div class="page">
-<header class="topbar">
-<h1>ΔVR–RC TR Malignancy Risk Calculator</h1>
-<p class="subtitle">This tool was developed from a multivariable logistic regression model for malignancy risk prediction in thyroid nodules. After entering ΔVR and RC TR, the calculator automatically generates an individualized linear predictor, the predicted probability of malignancy, and the corresponding dual-threshold risk classification.</p>
-<div class="meta-grid">
-<div class="meta-item"><div class="meta-label">Model type</div><div class="meta-value">Multivariable logistic regression</div></div>
-<div class="meta-item"><div class="meta-label">Output</div><div class="meta-value">Predicted probability of malignancy</div></div>
-<div class="meta-item"><div class="meta-label">Rule-out threshold</div><div class="meta-value">Score ≤ 0.64</div></div>
-<div class="meta-item"><div class="meta-label">Rule-in threshold</div><div class="meta-value">Score ≥ 0.77</div></div>
-</div>
-</header>
-<main class="main-grid">
-<aside>
-<section class="card">
-<h2 class="section-title">1. Input variables</h2>
-<div class="field"><label for="deltaVR"><span>ΔVR</span><span class="unit">continuous variable</span></label><input id="deltaVR" type="number" step="0.01" value="0" /><div class="hint">Enter the ΔVR value using the same definition and measurement method as used in model development.</div></div>
-<div class="field"><label for="rcTR"><span>RC TR</span><span class="unit">continuous variable</span></label><input id="rcTR" type="number" step="0.01" value="3.50" /><div class="hint">Enter the RC TR value using the same calculation method as used in the original study.</div></div>
-<button onclick="calculateRisk()">Calculate malignancy risk</button>
-</section>
-<section class="card">
-<h2 class="section-title">2. Model equation</h2>
-<div class="formula-box"><strong>Linear predictor</strong>LP = −10.379 − 0.063 × ΔVR + 2.983 × RC TR<br /><br /><strong>Logistic transformation</strong>Score = 1 / [1 + exp(−LP)]</div>
-<div class="footnote">LP denotes the individualized linear predictor. The score denotes the predicted probability of malignancy, also referred to as the ΔVR–RC TR Malignancy Score.</div>
-</section>
-</aside>
-<section>
-<div class="card">
-<div class="result-header"><h2 class="section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0;">3. Individualized prediction result</h2><div class="small-note">Result generated from the prespecified logistic equation and dual-threshold strategy.</div></div>
-<div class="result-grid">
-<div class="metric"><div class="metric-label">Linear predictor, LP</div><div class="metric-value" id="lpValue">--</div><div class="metric-sub">A higher LP indicates a higher predicted probability.</div></div>
-<div class="metric"><div class="metric-label">Predicted probability</div><div class="metric-value" id="scoreValue">--</div><div class="metric-sub">Model score after logistic transformation.</div></div>
-<div class="risk-panel"><div class="metric-label">Risk classification</div><div id="riskBadge" class="risk-badge middle">Not calculated</div><div class="metric-sub" id="riskSummary">Please enter values and calculate.</div></div>
-</div>
-<div class="progress-wrap"><div class="progress-labels"><span>0</span><span>Rule-out threshold: 0.64</span><span>Rule-in threshold: 0.77</span><span>1.0</span></div><div class="bar"><div class="marker" id="scoreMarker"></div></div></div>
-<div class="interpretation" id="interpretation" style="margin-top:20px;">Enter ΔVR and RC TR, then click “Calculate malignancy risk”.</div>
-</div>
-<div class="card">
-<h2 class="section-title">4. Threshold-based clinical interpretation</h2>
-<table><thead><tr><th>Risk zone</th><th>Score range</th><th>Diagnostic performance</th><th>Suggested interpretation</th></tr></thead>
-<tbody><tr><td>Rule-out zone</td><td>≤ 0.64</td><td>Sensitivity 90.8%; specificity 86.7%</td><td>Low-risk classification, mainly intended to support the exclusion of nodules with high malignancy risk.</td></tr>
-<tr><td>Intermediate-risk zone</td><td>&gt; 0.64 and &lt; 0.77</td><td>Not used as a definitive classification zone</td><td>Intermediate-risk classification; conventional ultrasound findings, clinical information, TI-RADS category, and cytological results should be integrated.</td></tr>
-<tr><td>Rule-in zone</td><td>≥ 0.77</td><td>Specificity 90.4%; sensitivity 58.8%</td><td>High-risk classification, mainly intended to support the identification of nodules with a higher likelihood of malignancy.</td></tr></tbody></table>
-</div>
-<div class="card">
-<h2 class="section-title">5. Scope and limitations</h2>
-<div class="warning">This calculator is intended only to support malignancy risk stratification in thyroid nodules and should not be used as a stand-alone diagnostic tool. Model outputs should be interpreted together with clinical information, conventional ultrasound features, TI-RADS classification, and cytological or histopathological results. Before real-world clinical implementation, external validation is recommended to further assess discrimination, calibration, and clinical net benefit.</div>
-</div>
-</section>
-</main>
+  <header class="header">
+    <h1>ΔVR–RC TR Malignancy Score Calculator</h1>
+    <p class="subtitle">This exploratory calculator applies the fixed multivariable logistic regression equation to derive an individualized predicted probability of thyroid nodule malignancy. The two thresholds are displayed as development-derived exploratory thresholds and should not be interpreted as established or validated clinical cutoffs.</p>
+    <div class="badge-row">
+      <div class="badge"><div class="badge-label">Model type</div><div class="badge-value">Multivariable logistic regression</div></div>
+      <div class="badge"><div class="badge-label">Output</div><div class="badge-value">Predicted malignancy probability</div></div>
+      <div class="badge"><div class="badge-label">Lower threshold</div><div class="badge-value">Score ≤ 0.637</div></div>
+      <div class="badge"><div class="badge-label">Upper threshold</div><div class="badge-value">Score ≥ 0.774</div></div>
+    </div>
+  </header>
+  <main class="main">
+    <aside>
+      <section class="card">
+        <h2 class="section-title">1. Input variables</h2>
+        <div class="field"><label for="deltaVR"><span>ΔVR</span><span class="unit">continuous variable</span></label><input id="deltaVR" type="number" step="0.01" value="0" /><div class="hint">Enter ΔVR using the same definition and measurement procedure as in the development study.</div></div>
+        <div class="field"><label for="rcTR"><span>RC TR</span><span class="unit">continuous variable</span></label><input id="rcTR" type="number" step="0.01" value="3.50" /><div class="hint">Enter RC TR using the same calculation method as in the original model.</div></div>
+        <button onclick="calculateRisk()">Calculate model score</button>
+      </section>
+      <section class="card">
+        <h2 class="section-title">2. Model equation</h2>
+        <div class="formula"><strong>Linear predictor</strong>LP = −10.379 − 0.063 × ΔVR + 2.983 × RC TR<br><br><strong>Logistic transformation</strong>Score = 1 / [1 + exp(−LP)]</div>
+        <div class="note">LP denotes the individualized linear predictor. The score denotes the predicted probability of malignancy derived from the logistic transformation.</div>
+      </section>
+    </aside>
+    <section>
+      <div class="card">
+        <div class="result-head"><h2 class="section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0;">3. Individualized model output</h2><div class="small">Classification is based on exact internal thresholds of 0.637 and 0.774.</div></div>
+        <div class="result-grid">
+          <div class="metric"><div class="metric-label">Linear predictor, LP</div><div class="metric-value" id="lpValue">--</div><div class="metric-sub">Higher LP indicates a higher model-derived probability.</div></div>
+          <div class="metric"><div class="metric-label">Predicted probability</div><div class="metric-value" id="scoreValue">--</div><div class="metric-sub">Model score after logistic transformation.</div></div>
+          <div class="zone-panel"><div class="metric-label">Threshold-defined position</div><div id="zoneTag" class="zone-tag interval">Not calculated</div><div class="metric-sub" id="zoneSummary">Please enter values and calculate.</div></div>
+        </div>
+        <div class="scale-wrap"><div class="scale-labels"><span>0</span><span>Lower threshold: 0.637</span><span>Upper threshold: 0.774</span><span>1.0</span></div><div class="scale"><div class="marker" id="scoreMarker"></div></div></div>
+        <div class="interpretation" id="interpretation">Enter ΔVR and RC TR, then click “Calculate model score”.</div>
+      </div>
+      <div class="card">
+        <h2 class="section-title">4. Threshold-defined interpretation</h2>
+        <table><thead><tr><th>Threshold-defined position</th><th>Score range</th><th>Purpose in the development analysis</th><th>Interpretation</th></tr></thead><tbody>
+          <tr><td>Below lower threshold</td><td>≤ 0.637</td><td>Exploratory lower-threshold zone derived from the development cohort.</td><td>Indicates that the score is below or equal to the lower exploratory threshold; it should not be described as an established low-risk stratum or a validated rule-out cutoff.</td></tr>
+          <tr><td>Indeterminate interval</td><td>&gt; 0.637 and &lt; 0.774</td><td>Interval between the two exploratory thresholds.</td><td>This interval should not be treated as an established intermediate-risk stratum; conventional ultrasound, clinical context, and cytology or pathology should be integrated.</td></tr>
+          <tr><td>Above upper threshold</td><td>≥ 0.774</td><td>Exploratory upper-threshold zone derived from the development cohort.</td><td>Indicates that the score is above or equal to the upper exploratory threshold; it should not be described as an established high-risk stratum or a validated rule-in cutoff.</td></tr>
+        </tbody></table>
+        <div class="footer-note">The terms “below lower threshold,” “indeterminate interval,” and “above upper threshold” are used to avoid implying monotonic, validated clinical risk strata.</div>
+      </div>
+      <div class="card">
+        <h2 class="section-title">5. Scope and limitations</h2>
+        <div class="warning">This calculator is intended for research-use presentation of the fixed ΔVR–RC TR logistic model. The displayed thresholds are development-derived exploratory thresholds, not established clinical decision cutoffs. The model output should not be used as a stand-alone diagnostic result and should be interpreted together with conventional ultrasound findings, TI-RADS category, clinical information, and cytological or histopathological results. Independent validation and clinical impact assessment are required before real-world clinical implementation.</div>
+      </div>
+    </section>
+  </main>
 </div>
 <script>
+const LOWER_THRESHOLD = 0.637;
+const UPPER_THRESHOLD = 0.774;
 function calculateRisk(){
-const deltaVR=parseFloat(document.getElementById('deltaVR').value);
-const rcTR=parseFloat(document.getElementById('rcTR').value);
-if(Number.isNaN(deltaVR)||Number.isNaN(rcTR)){alert('Please enter valid numeric values for ΔVR and RC TR.');return;}
-const lp=-10.379-0.063*deltaVR+2.983*rcTR;
-const score=1/(1+Math.exp(-lp));
-document.getElementById('lpValue').innerText=lp.toFixed(3);
-document.getElementById('scoreValue').innerText=(score*100).toFixed(1)+'%';
-const badge=document.getElementById('riskBadge'), interpretation=document.getElementById('interpretation'), riskSummary=document.getElementById('riskSummary'), marker=document.getElementById('scoreMarker');
-badge.className='risk-badge'; marker.style.left=Math.min(Math.max(score*100,0),100)+'%';
-if(score<=0.64){badge.classList.add('low');badge.innerText='Rule-out zone / Low-risk zone';riskSummary.innerText='Predicted probability is below or equal to the rule-out threshold.';interpretation.innerText='The ΔVR–RC TR Malignancy Score falls within the rule-out zone, suggesting a lower predicted probability of malignancy. This threshold was selected primarily to achieve high sensitivity and may help identify nodules for which high malignancy risk can be reasonably excluded. The result should still be interpreted in conjunction with conventional ultrasound findings, TI-RADS category, and clinical context.';}
-else if(score>=0.77){badge.classList.add('high');badge.innerText='Rule-in zone / High-risk zone';riskSummary.innerText='Predicted probability is above or equal to the rule-in threshold.';interpretation.innerText='The ΔVR–RC TR Malignancy Score falls within the rule-in zone, suggesting a higher predicted probability of malignancy. This threshold was selected primarily to achieve high specificity and may help identify nodules with a higher likelihood of malignancy. Further assessment should integrate clinical risk factors, conventional ultrasound features, and, when indicated, fine-needle aspiration or histopathological results.';}
-else{badge.classList.add('middle');badge.innerText='Intermediate-risk zone';riskSummary.innerText='Predicted probability lies between the two prespecified thresholds.';interpretation.innerText='The ΔVR–RC TR Malignancy Score falls within the intermediate-risk zone. The model result alone is insufficient to confidently rule out or rule in malignancy. Clinical decision-making should integrate conventional ultrasound findings, TI-RADS category, clinical data, longitudinal changes, and cytological assessment when appropriate.';}
+  const deltaVR = parseFloat(document.getElementById('deltaVR').value);
+  const rcTR = parseFloat(document.getElementById('rcTR').value);
+  if(Number.isNaN(deltaVR) || Number.isNaN(rcTR)){ alert('Please enter valid numeric values for ΔVR and RC TR.'); return; }
+  const lp = -10.379 - 0.063 * deltaVR + 2.983 * rcTR;
+  const score = 1 / (1 + Math.exp(-lp));
+  document.getElementById('lpValue').innerText = lp.toFixed(3);
+  document.getElementById('scoreValue').innerText = (score * 100).toFixed(1) + '%';
+  const zoneTag = document.getElementById('zoneTag');
+  const zoneSummary = document.getElementById('zoneSummary');
+  const interpretation = document.getElementById('interpretation');
+  const marker = document.getElementById('scoreMarker');
+  zoneTag.className = 'zone-tag';
+  marker.style.left = Math.min(Math.max(score * 100, 0), 100) + '%';
+  if(score <= LOWER_THRESHOLD){
+    zoneTag.classList.add('below');
+    zoneTag.innerText = 'Below lower threshold';
+    zoneSummary.innerText = 'Score ≤ 0.637, using the exact internal threshold.';
+    interpretation.innerText = 'The calculated score is below or equal to the lower exploratory threshold. This result indicates the score position relative to the development-derived threshold only; it should not be interpreted as an established low-risk category or a validated rule-out cutoff.';
+  } else if(score >= UPPER_THRESHOLD){
+    zoneTag.classList.add('above');
+    zoneTag.innerText = 'Above upper threshold';
+    zoneSummary.innerText = 'Score ≥ 0.774, using the exact internal threshold.';
+    interpretation.innerText = 'The calculated score is above or equal to the upper exploratory threshold. This result indicates the score position relative to the development-derived threshold only; it should not be interpreted as an established high-risk category or a validated rule-in cutoff.';
+  } else {
+    zoneTag.classList.add('interval');
+    zoneTag.innerText = 'Indeterminate interval';
+    zoneSummary.innerText = '0.637 < score < 0.774.';
+    interpretation.innerText = 'The calculated score lies between the two exploratory thresholds. Because the development-cohort strata were not strictly monotonic, this interval should not be interpreted as an established intermediate-risk stratum. Clinical and imaging information should be integrated.';
+  }
 }
 calculateRisk();
 </script>
